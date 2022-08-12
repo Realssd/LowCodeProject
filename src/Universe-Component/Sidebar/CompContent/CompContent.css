@@ -1,0 +1,23 @@
+.comp-item{
+    list-style: none;
+    margin: 0;
+    padding-bottom: 1vh;
+    padding-top: 1vh;
+    padding-left: 0.5vw;
+    color: #efefef;
+    height: 20px;
+    user-select: none;
+}
+
+.comp-list{
+    height: 90%;
+    overflow-y: scroll;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    user-select: none;
+}
+
+.comp-item:hover{
+    background-color: #4f4f4f;
+}

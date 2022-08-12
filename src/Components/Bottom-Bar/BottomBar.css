@@ -1,0 +1,14 @@
+.bottom-bar{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    background-color: #2d2d2d;
+    color: #efefef;
+    font-size: 16px;
+}

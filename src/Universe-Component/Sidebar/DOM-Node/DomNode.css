@@ -1,0 +1,28 @@
+.dom-container{
+    height: 90%;
+    overflow: scroll;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    user-select: none;
+}
+
+.dom-children{
+    margin-left: 1vw;
+    transition: all 0.5s;
+    user-select: none;
+}
+
+.dom-title{
+    list-style: none;
+    padding-left: 0.5vw;
+    color: #efefef;
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
+    user-select: none;
+}
+
+.dom-title:hover{
+    background-color: #4f4f4f;
+}
+

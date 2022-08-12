@@ -1,0 +1,17 @@
+.sidebar{
+    background-color: #5f5f5f;
+    height:50%;
+    box-shadow: 1px 0px 1px 1px darkgray;
+    user-select: none;
+}
+
+.sidebar-title{
+    background-color: #2d2d2d;
+    color: white;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+

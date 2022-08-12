@@ -1,0 +1,14 @@
+.top-bar-item{
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    font-size: 16px;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    border-right: 2px #efefef outset ;
+}
+
+
+.top-bar-item:hover{
+    background-color: #5f5f5f;
+}
