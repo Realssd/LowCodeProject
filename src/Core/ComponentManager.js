@@ -37,7 +37,6 @@ export default class ComponentManager {
         }
         this.instances.push(instance);
         trueTarget.addSubElem(instance);
-        instance.attachToAnother(trueTarget);
         this.updateCanvas();
         this.updateDOM();
         this.selectSingleInstance(instance);
@@ -78,7 +77,6 @@ export default class ComponentManager {
         }
         instance.getParent().removeSubElem(instance);
         trueTarget.addSubElem(instance);
-        instance.attachToAnother(trueTarget);
     }
 
     modifyInstanceStyle(instance, key: string, value) {

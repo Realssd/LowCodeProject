@@ -27,13 +27,13 @@ export default class PrototypeInstance extends Prototype {
     genHtml() {
         let stringBuilder = ''
         if (this.subElmes.length <= 0) {
-            return this.genSingLineHtml();
+            return genSingLineHtml(this);
         } else {
-            stringBuilder += this.genHtmlHead() + '\n';
+            stringBuilder += genHtmlHead(this) + '\n';
             for (let child of this.subElmes) {
                 stringBuilder += child.genHtml();
             }
-            stringBuilder += this.genHtmlTail();
+            stringBuilder += genHtmlTail(this);
         }
         return stringBuilder;
     }
@@ -46,6 +46,7 @@ export default class PrototypeInstance extends Prototype {
         if (this.canHasChildren && this.subElmes.indexOf(another) < 0) {
             this.subElmes.push(another);
         }
+        another.setParent(this);
     }
 
     removeSubElem(another: PrototypeInstance) {
@@ -53,10 +54,15 @@ export default class PrototypeInstance extends Prototype {
         if (index >= 0) {
             this.subElmes.splice(index, 1);
         }
+        another.setParent(null);
     }
 
     getChildren() {
         return this.subElmes;
+    }
+
+    setParent(parent){
+        this.parentElem=parent;
     }
 
     getParent() {
@@ -204,4 +210,44 @@ function isChild(target,instance){
         }
     }
     return false;
+}
+
+function genHtmlHead(protoType) {
+    let stringBuffer = '<' + protoType.htmlLabel.type + ' ';
+    for (let [k, v] of Object.entries(protoType.attributes)) {
+        stringBuffer += k + '="' + v + '" ';
+    }
+    if (Object.keys(protoType.styles).length > 0) {
+        stringBuffer += 'style="';
+        stringBuffer +=genStyleCode(protoType);
+        stringBuffer += '"'
+    }
+    return stringBuffer + '>';
+}
+
+function genHtmlTail(protoType) {
+    return "</" + protoType.htmlLabel.type + ">";
+}
+
+function genSingLineHtml(protoType) {
+    let stringBuffer = '<' + protoType.htmlLabel.type + ' ';
+    for (let [k, v] of Object.entries(protoType.attributes)) {
+        stringBuffer += k + '= "' + v + '" ';
+    }
+
+    if (Object.keys(protoType.styles).length > 0) {
+        stringBuffer += 'style="';
+        stringBuffer +=genStyleCode(protoType);
+        stringBuffer += '"'
+    }
+
+    return stringBuffer + '/>';
+}
+
+function genStyleCode(protoType) {
+    let stringBuffer = ''
+    for (const [k, v] of Object.entries(protoType.styles)) {
+        stringBuffer += k + ':' + v + ';\n';
+    }
+    return stringBuffer;
 }

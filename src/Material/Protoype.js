@@ -13,50 +13,6 @@ export default class Prototype {
         }
     }
 
-    genHtmlHead() {
-        let stringBuffer = '<' + this.htmlLabel.type + ' ';
-        for (let [k, v] of Object.entries(this.attributes)) {
-            stringBuffer += k + '="' + v + '" ';
-        }
-        if (Object.keys(this.styles).length > 0) {
-            stringBuffer += 'style="';
-            for (let [k, v] of Object.entries(this.styles)) {
-                stringBuffer += k + ':' + v + ';'
-            }
-            stringBuffer += '"'
-        }
-        return stringBuffer + '>';
-    }
-
-    genHtmlTail() {
-        return "</" + this.htmlLabel.type + ">";
-    }
-
-    genSingLineHtml() {
-        let stringBuffer = '<' + this.htmlLabel.type + ' ';
-        for (let [k, v] of Object.entries(this.attributes)) {
-            stringBuffer += k + '= "' + v + '" ';
-        }
-
-        if (Object.keys(this.styles).length > 0) {
-            stringBuffer += 'style="';
-            for (let [k, v] of Object.entries(this.styles)) {
-                stringBuffer += k + '=' + v + ';'
-            }
-            stringBuffer += '"'
-        }
-
-        return stringBuffer + '/>';
-    }
-
-    genStyleCode() {
-        let stringBuffer = ''
-        for (const [k, v] of Object.entries(this.styles)) {
-            stringBuffer += k + ':' + v + ';\n';
-        }
-        return stringBuffer;
-    }
-
     genStyleJSX() {
         let obj = {};
         for (const [k, v] of Object.entries(this.styles)) {
