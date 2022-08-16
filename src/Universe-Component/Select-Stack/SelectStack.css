@@ -1,0 +1,21 @@
+.stack-wrapper{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-left: 1vw;
+}
+
+.stack-wrapper div{
+    padding-right: 0.5vw;
+    user-select: none;
+    cursor: pointer;
+}
+
+.stack-wrapper div span:hover{
+    background-color: #4f4f4f;
+}
+
+.stack-wrapper div:not(:last-child):after{
+    content: ' >';
+}
+

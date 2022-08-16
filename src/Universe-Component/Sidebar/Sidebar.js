@@ -6,7 +6,9 @@ export default function Sidebar(props) {
                 <div className={'sidebar-title'}>
                     <div>{props.title}</div>
                 </div>
+                <div className={'sidebar-container'}>
                 {props.content}
+                </div>
             </div>
         );
 }

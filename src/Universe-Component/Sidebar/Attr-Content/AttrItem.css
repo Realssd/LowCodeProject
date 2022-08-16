@@ -1,0 +1,22 @@
+.attr-item{
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    height: 24px;
+    line-height: 24px;
+    border: 1px #2d2d2d solid;
+}
+
+.attr-title{
+    margin-left: 0.5vw;
+    color: #dfdfdf;
+}
+
+.attr-input{
+    background-color: transparent;
+    border: #9f9f9f 1px solid;
+    color: #dfdfdf;
+    width: 50%;
+    margin-right: 0.3vw;
+}

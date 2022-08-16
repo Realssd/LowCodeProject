@@ -9,6 +9,11 @@ import DomNode from "./Universe-Component/Sidebar/DOM-Node/DomNode"
 import React from "react";
 import Canvas from "./Components/Canvas/Canvas";
 import ComponentManager from "./Core/ComponentManager";
+import AttrContent from "./Universe-Component/Sidebar/Attr-Content/AttrContent";
+import StyleContent from "./Universe-Component/Sidebar/Style-Content/StyleContent";
+import DragManager from "./Core/DragManager";
+import Cursor from "./Components/Cursor/Cursor";
+import InstanceFactory from "./Material/InstanceFactory";
 
 class App extends React.Component {
     constructor(props) {
@@ -17,47 +22,80 @@ class App extends React.Component {
             this,
             this.updateSelected,
             this.updateDOM,
-            this.updateCanvas,
-            this.updateAttr,
-            this.updateStyle
+            this.updateCanvas
         );
+
+        this.DragManager = new DragManager(this,this.ComponentManager);
+        InstanceFactory.signDragManager(this.DragManager);
+        InstanceFactory.signManager(this.ComponentManager);
         this.state ={
             selected:this.ComponentManager.getSelectedInstance(),
+            selectedArray:this.ComponentManager.getSelectedArray(),
             instances:this.ComponentManager.getInstances(),
-            instanceNum:this.ComponentManager.getInstanceNum()
+            instanceNum:this.ComponentManager.getInstanceNum(),
+            holdInstance:null,
+            canvasRate:100
         }
     }
 
     render() {
         return (
             <div className={'wrapper'}>
-                <Topbar></Topbar>
+
+                <Topbar manager={this.ComponentManager} selected={this.state.selected}></Topbar>
                 <div className={'flex-wrapper'}>
                     <div className={'left-block'}>
                         <Sidebar
                             title={'ToolBox'}
-                            content={<CompContent manager={this.ComponentManager} content={Object.entries(Lib)}/>}
+                            content={
+                                <CompContent
+                                    drag={this.DragManager}
+                                    manager={this.ComponentManager}
+                                    content={Object.entries(Lib)}
+                                />
+                            }
                         />
                         <Sidebar
                             title={'DOM'}
-                            content={<DomNode manager={this.ComponentManager} proto={this.ComponentManager.instances[0]}/>}
+                            content={
+                                <DomNode
+                                    drag={this.DragManager}
+                                    manager={this.ComponentManager}
+                                    proto={this.ComponentManager.instances[0]}
+                                />
+                            }
                         />
                     </div>
                     <div className={'center-block'}>
-                        <Canvas manager={this.ComponentManager} content={this.ComponentManager.getInstances()[0]}></Canvas>
+                        <Canvas
+                            drag={this.DragManager}
+                            manager={this.ComponentManager}
+                            content={this.ComponentManager.getInstances()[0]}
+                            scaleRate={this.state.canvasRate}
+                        />
+                        <input
+                            className={'scale-range'}
+                            type="range" min="0"
+                            max="100" step="1"
+                            defaultValue={'100'}
+                            onChange={(event)=>{
+                                this.setState({canvasRate: event.target.value});
+                            }}
+                        />
                     </div>
                     <div className={'right-block'}>
                         <Sidebar
                             title={'Style'}
-                            content={<CompContent manager={this.ComponentManager} content={[]}/>}
+                            content={<StyleContent selectedItem={this.state.selected} manager={this.ComponentManager}/>}
                         />
                         <Sidebar
                             title={'Attributes'}
-                            content={<CompContent manager={this.ComponentManager} content={[]}/>}
+                            content={<AttrContent selectedItem={this.state.selected} manager={this.ComponentManager}/>}
                         />
                     </div>
                 </div>
-                <BottomBar></BottomBar>
+                <BottomBar selected={this.state.selectedArray} manager={this.ComponentManager} />
+                <Cursor manager={this.ComponentManager} instance={this.state.holdInstance}/>
             </div>
         );
     }
@@ -74,15 +112,28 @@ class App extends React.Component {
     }
 
     updateSelected = () => {
-        this.setState({selected:this.ComponentManager.getSelectedInstance()})
+        this.setState({
+            selected:this.ComponentManager.getSelectedInstance(),
+            selectedArray:this.ComponentManager.getSelectedArray()
+        })
     }
 
-    updateAttr = () => {
-        this.setState({selected:this.ComponentManager.getSelectedInstance()})
+    updateCursor(x,y){
+        let cursor = document.getElementById('cursor');
+        cursor.style.display = 'block';
+        cursor.style.top=`${y+1}px`;
+        cursor.style.left=`${x+1}px`;
+        //console.log("set",x,y)
     }
 
-    updateStyle = () => {
-        this.setState({selected:this.ComponentManager.getSelectedInstance()})
+    cursorShow(){
+        this.setState({holdInstance:this.DragManager.getHoldInstance()});
+    }
+
+    cursorHide(){
+        this.setState({holdInstance:this.DragManager.getHoldInstance()});
+        let cursor = document.getElementById('cursor');
+        cursor.style.display = 'none';
     }
 }
 

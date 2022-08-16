@@ -1,0 +1,5 @@
+.canvas{
+    display: inline-block;
+    margin: 20px;
+    transform-origin: 50% 50% 0;
+}

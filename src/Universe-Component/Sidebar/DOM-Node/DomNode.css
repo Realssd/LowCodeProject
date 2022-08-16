@@ -1,6 +1,5 @@
 .dom-container{
     height: 90%;
-    overflow: scroll;
     padding: 0;
     margin: 0;
     text-align: left;
@@ -10,19 +9,44 @@
 .dom-children{
     margin-left: 1vw;
     transition: all 0.5s;
-    user-select: none;
 }
 
 .dom-title{
+    width: 100%;
+    display: inline-block;
     list-style: none;
-    padding-left: 0.5vw;
     color: #efefef;
-    padding-top: 0.5vh;
-    padding-bottom: 0.5vh;
+    padding: 0.5vh 20px 0.5vh 0.5vw;
+    margin-top: 0;
+    margin-bottom: 0;
     user-select: none;
+    height: 20px;
+    cursor: pointer;
+}
+
+.change-icon{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    vertical-align: center;
+    user-select: none;
+}
+
+.dom-title .node-label{
+    width: 60%;
+    display: inline-block;
+    height: 100%;
 }
 
 .dom-title:hover{
     background-color: #4f4f4f;
 }
 
+.drop{
+    background-color: #4f4f4f;
+}
+
+.change-icon:hover{
+    background-color: #2f2f2f;
+}

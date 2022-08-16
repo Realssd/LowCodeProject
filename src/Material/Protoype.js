@@ -1,10 +1,16 @@
 
 export default class Prototype {
 
-    constructor(htmlLabel, attrList, styleList) {
+    constructor(htmlLabel, attrList, styleList,defaultChildren,canHaveChildren) {
         this.htmlLabel = htmlLabel === undefined ? null : htmlLabel;
         this.attributes = attrList === undefined ? {} : attrList;
         this.styles = styleList === undefined ? {} : styleList;
+        this.defaultChildren = defaultChildren;
+        if(canHaveChildren===false){
+            this.canHasChildren=false;
+        }else{
+            this.canHasChildren=true
+        }
     }
 
     genHtmlHead() {
@@ -15,7 +21,7 @@ export default class Prototype {
         if (Object.keys(this.styles).length > 0) {
             stringBuffer += 'style="';
             for (let [k, v] of Object.entries(this.styles)) {
-                stringBuffer += k + '=' + v + ';'
+                stringBuffer += k + ':' + v + ';'
             }
             stringBuffer += '"'
         }

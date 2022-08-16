@@ -6,7 +6,7 @@
     height: 24px;
     display: flex;
     flex-direction: row;
-    justify-content: left;
+    justify-content: space-between;
     align-items: center;
     background-color: #2d2d2d;
     color: #efefef;

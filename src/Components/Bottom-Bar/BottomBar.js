@@ -1,20 +1,16 @@
 import './BottomBar.css'
 import BottomBarItem from "../../Universe-Component/Bottombar-Item/BottomBarItem";
+import SelectStack from "../../Universe-Component/Select-Stack/SelectStack";
 export default function BottomBar(props){
     return (
       <div className={'bottom-bar'}>
-          {Object.entries(props).map((item)=>{
-              return(
-                <BottomBarItem key={item[0]} stateKey={item[0]} value={item[1]}/>
-              )
-          })}
+          <SelectStack selected={props.selected} manager={props.manager}/>
       </div>
     );
 }
 
 BottomBar.defaultProps = {
-    key1:'value1',
-    key2:'value2',
-    key3:'value3',
-    key4:'value4'
+    selected : [],
+    manager:null,
+    total: 0
 }

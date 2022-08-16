@@ -32,14 +32,18 @@
 }
 
 .center-block{
+  background-color: #7f7f7f;
   position: absolute;
   top: 0;
   left: 15vw;
   right: 20vw;
   height: 100%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow: scroll;
   user-select: none;
+}
+
+.scale-range{
+  position: fixed;
+  bottom: 30px;
+  right: 20vw;
 }
