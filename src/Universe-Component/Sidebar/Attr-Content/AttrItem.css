@@ -1,11 +1,19 @@
+.attr-info{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
 .attr-item{
-    width: 100%;
     display: flex;
     align-content: center;
     justify-content: space-between;
     height: 24px;
     line-height: 24px;
     border: 1px #2d2d2d solid;
+    width: 100%;
+    white-space: nowrap;
+    color: #efefef;
 }
 
 .attr-title{
@@ -17,6 +25,21 @@
     background-color: transparent;
     border: #9f9f9f 1px solid;
     color: #dfdfdf;
-    width: 50%;
-    margin-right: 0.3vw;
+    width: 80%;
 }
+
+.remove-attr{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    text-align: center;
+    line-height: 24px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.remove-attr:hover{
+    background-color: #4f4f4f;
+}
+

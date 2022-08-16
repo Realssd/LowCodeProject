@@ -76,6 +76,7 @@ export default class Prototype {
     }
 
     removeStyle(key) {
+        //console.log("Remove",this,key)
         if (key in this.styles) {
             delete this.styles[key]
         }

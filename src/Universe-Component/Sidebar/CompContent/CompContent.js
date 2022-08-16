@@ -23,8 +23,9 @@ export default function CompContent(props) {
                                 props.drag.updateCursor(event.clientX,event.clientY);
                             })}
                             onDragEnd={(event)=>{
-                                console.log('Component Drag End')
-                                props.drag.cursorHide();
+                                event.stopPropagation();
+                                console.log('Instance DragEnd');
+                                InstanceFactory.DragManager.cursorHide();
                                 props.drag.setHoldInstance(null);
                             }}
                         >

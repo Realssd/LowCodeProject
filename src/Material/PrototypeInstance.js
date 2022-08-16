@@ -111,7 +111,7 @@ export default class PrototypeInstance extends Prototype {
                 event.stopPropagation();
                 console.log('Instance DragEnd');
                 InstanceFactory.DragManager.cursorHide();
-                //InstanceFactory.DragManager.setHoldInstance(null);
+                InstanceFactory.DragManager.setHoldInstance(null);
             }
         }
         obj['onDragOver']=(event)=>{
