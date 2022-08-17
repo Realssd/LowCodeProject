@@ -21,7 +21,7 @@ export default function Topbar(props) {
                         "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
                         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
                         `<title>${props.title}</title>\n` +
-                        `<style>html{width: ${this.props.canvasWidth};height: ${this.props.canvasHeight}</style>\n`+
+                        `<style>html{width: ${props.canvasWidth};height: ${props.canvasHeight}</style>\n`+
                         "</head>\n" +
                         "<body>" +
                         props.manager.instances[0].genHtml() +
