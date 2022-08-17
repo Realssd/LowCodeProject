@@ -50,6 +50,8 @@ class App extends React.Component {
                     manager={this.ComponentManager}
                     selected={this.state.selected}
                     ops={this.OperationStack}
+                    canvasWidth={this.state.canvasWidth}
+                    canvasHeight={this.state.canvasHeight}
                 ></Topbar>
                 <div className={'flex-wrapper'}>
                     <div className={'left-block'}>
