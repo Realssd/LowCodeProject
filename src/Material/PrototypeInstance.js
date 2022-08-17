@@ -171,9 +171,24 @@ export default class PrototypeInstance extends Prototype {
             event.stopPropagation();
             let instance = InstanceFactory.DragManager.getHoldInstance();
             if (isChild(this, instance)) {
+                InstanceFactory.Manager.modifyInstanceStyle(instance, 'position', 'absolute');
+                InstanceFactory.Manager.modifyInstanceStyle(instance, 'left', `${Number.parseInt(instance.styles.left)+event.nativeEvent.offsetX + 1}px`);
+                InstanceFactory.Manager.modifyInstanceStyle(instance, 'top', `${Number.parseInt(instance.styles.top)+event.nativeEvent.offsetY + 1}px`);
+                InstanceFactory.Manager.moveInstance(instance,InstanceFactory.Manager.getInstances()[0],false);
+
+                if (this.id !== 0) {
+                    if ('backgroundColor' in this.styles) {
+                        event.target.style.backgroundColor = this.styles.backgroundColor;
+                    } else {
+                        event.nativeEvent.target.style.removeProperty('background-color');
+                    }
+                }
+                InstanceFactory.DragManager.cursorHide();
+                InstanceFactory.DragManager.setHoldInstance(null);
                 return;
             }
-            //console.log(`${event.nativeEvent.offsetX}px,${event.nativeEvent.offsetY}px`)
+            //console.log("Canvas")
+            //console.log(`${Number.parseInt(instance.styles.left)+event.nativeEvent.offsetX}px,${Number.parseInt(instance.styles.top)+event.nativeEvent.offsetY}px`)
             if (InstanceFactory.Manager.existInstance(instance)) {
                 InstanceFactory.Manager.modifyInstanceStyle(instance, 'position', 'absolute');
                 InstanceFactory.Manager.modifyInstanceStyle(instance, 'left', `${event.nativeEvent.offsetX + 1}px`);

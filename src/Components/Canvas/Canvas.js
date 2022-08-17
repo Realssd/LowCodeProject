@@ -1,5 +1,4 @@
 import './Canvas.css'
-import {Lib} from "../../Material/PrototypeLib";
 import React from "react";
 import InstanceFactory from "../../Core/InstanceFactory";
 
@@ -21,6 +20,7 @@ export default function Canvas(props) {
             }}
             onDrop={(event)=>{
                 event.preventDefault();
+
                 let instance = props.drag.getHoldInstance();
                 console.log(`${event.nativeEvent.offsetX}px,${event.nativeEvent.offsetY}px`)
                 if(props.manager.existInstance(instance)){
