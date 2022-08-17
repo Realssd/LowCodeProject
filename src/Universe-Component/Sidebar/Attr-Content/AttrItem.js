@@ -1,39 +1,54 @@
 import './AttrItem.css'
+import React from "react";
 import {Lib} from "../../../Material/PrototypeLib";
-export default function AttrItem(props){
+export default class AttrItem extends React.Component{
 
-    return(
-      <div className={'attr-item'}>
-          <div className={'attr-info'}>
-              <span className={'attr-title'}>{props.attrName+':'}</span>
-              <input
-                  className={'attr-input'} type={'text'}
-                  value={props.value}
-                  onChange={(event)=>props.value=event.target.value}
-                  onBlur={(event)=>{
-                      if(event.target.value==='undefined'){
-                          props.manager.removeInstanceAttr(props.instance,props.attrName)
-                      }else{
-                          props.manager.modifyInstanceAttr(
-                              props.instance,
-                              props.attrName,
-                              event.target.value
-                          );
-                          console.log(Lib.div.defaultChildren)
-                      }
-                  }}
-              />
-          </div>
-          <div className={'remove-attr'} onClick={(event)=>{
-              props.manager.removeInstanceAttr(props.instance,props.attrName)
-          }}>-</div>
-      </div>
-    );
-}
+    static defaultProps = {
+        instance:null,
+        attrName:'key',
+        value:'value',
+        manager: null
+    };
 
-AttrItem.defaultProps = {
-    instance:null,
-    attrName:'key',
-    value:'value',
-    manager: null
+
+    constructor(props) {
+        super(props);
+        this.state={
+            value:props.value
+        }
+    }
+
+
+    render() {
+        return(
+            <div className={'attr-item'}>
+                <div className={'attr-info'}>
+                    <span className={'attr-title'}>{this.props.attrName+':'}</span>
+                    <input
+                        className={'attr-input'} type={'text'}
+                        value={this.state.value}
+                        onChange={(event)=>this.setState({value:event.target.value})}
+                        onBlur={()=>{
+                            if(this.state.value==='undefined'){
+                                this.props.manager.removeInstanceAttr(this.props.instance,this.props.attrName)
+                            }else{
+                                this.props.manager.modifyInstanceAttr(
+                                    this.props.instance,
+                                    this.props.attrName,
+                                    this.state.value
+
+                                );
+                                console.log(Lib.div.defaultChildren)
+                            }
+                        }}
+                    />
+                </div>
+                <div className={'remove-attr'} onClick={()=>{
+                    this.props.manager.removeInstanceAttr(this.props.instance,this.props.attrName)
+                }}>-</div>
+            </div>
+        );
+    }
+
+
 }
