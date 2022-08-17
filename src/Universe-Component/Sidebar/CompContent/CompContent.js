@@ -37,9 +37,9 @@ export default function CompContent(props) {
                             onDragStart={dragstart}
                             onDrag={drag}
                             onDragEnd={dragEnd}
-                            onTouchStart={dragstart}
-                            onTouchMove={drag}
-                            onTouchEnd={dragEnd}
+                            // onTouchStart={dragstart}
+                            // onTouchMove={drag}
+                            // onTouchEnd={dragEnd}
                         >
                             {
                                 //PrototypeInstance.createInstanceof(item[1]).render()
