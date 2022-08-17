@@ -1,6 +1,6 @@
-import Prototype from "./Protoype";
-import PrototypeInstance from "./PrototypeInstance";
-import PureText from "./PureText";
+import Prototype from "../Material/Protoype";
+import PrototypeInstance from "../Material/PrototypeInstance";
+import PureText from "../Material/PureText";
 
 export default class InstanceFactory {
     static nextIndexId = 0;

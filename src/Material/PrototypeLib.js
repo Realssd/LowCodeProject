@@ -1,5 +1,5 @@
 import Prototype from "./Protoype";
-import InstanceFactory from "./InstanceFactory";
+import InstanceFactory from "../Core/InstanceFactory";
 
 export const Lib = {
     PureText:new Prototype(
@@ -49,8 +49,8 @@ export const Root = new Prototype(
         id:'root'
     },
     {
-        width:'1920px',
-        height:'1080px'
+        width:'500px',
+        height:'500px'
     },
     [],
     true);

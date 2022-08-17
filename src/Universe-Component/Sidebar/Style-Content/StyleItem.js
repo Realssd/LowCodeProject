@@ -7,7 +7,8 @@ export default function StyleItem(props){
                 <span className={'style-title'}>{props.styleName+':'}</span>
                 <input
                     className={'style-input'} type={'text'}
-                    defaultValue={props.value}
+                    value={props.value}
+                    onChange={(event)=>props.value=event.target.value}
                     onBlur={(event)=>{
                         if(event.target.value==='undefined'){
                             props.manager.removeInstanceStyle(props.instance,props.styleName);

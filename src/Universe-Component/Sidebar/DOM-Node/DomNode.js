@@ -75,8 +75,7 @@ export default class DomNode extends React.Component {
                                     delete instance.styles.position;
                                     delete instance.styles.left;
                                     delete instance.styles.top;
-                                    instance.getParent().removeSubElem(instance);
-                                    this.props.proto.addSubElem(instance);
+                                    this.props.manager.moveInstance(instance,this);
                                 } else {
                                     console.log('Add')
                                     this.props.manager.addInstance(

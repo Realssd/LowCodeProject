@@ -1,5 +1,5 @@
 import './CompContent.css';
-import InstanceFactory from "../../../Material/InstanceFactory";
+import InstanceFactory from "../../../Core/InstanceFactory";
 const img = new Image(10,10);
 img.src="https://s1.ax1x.com/2022/08/15/vdNkMn.png";
 export default function CompContent(props) {

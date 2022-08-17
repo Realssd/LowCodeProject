@@ -8,7 +8,8 @@ export default function AttrItem(props){
               <span className={'attr-title'}>{props.attrName+':'}</span>
               <input
                   className={'attr-input'} type={'text'}
-                  defaultValue={props.value}
+                  value={props.value}
+                  onChange={(event)=>props.value=event.target.value}
                   onBlur={(event)=>{
                       if(event.target.value==='undefined'){
                           props.manager.removeInstanceAttr(props.instance,props.attrName)

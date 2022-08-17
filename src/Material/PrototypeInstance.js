@@ -1,5 +1,5 @@
 import Prototype from "./Protoype";
-import InstanceFactory from "./InstanceFactory";
+import InstanceFactory from "../Core/InstanceFactory";
 import reverseColor from '../Core/ReverseColor'
 
 const img = new Image(1, 1);
@@ -27,7 +27,7 @@ export default class PrototypeInstance extends Prototype {
 
     genHtml() {
         let stringBuilder = ''
-        if (this.subElmes.length <= 0) {
+        if (!this.canHasChildren) {
             return genSingLineHtml(this);
         } else {
             stringBuilder += genHtmlHead(this);
@@ -175,12 +175,16 @@ export default class PrototypeInstance extends Prototype {
             }
             //console.log(`${event.nativeEvent.offsetX}px,${event.nativeEvent.offsetY}px`)
             if (InstanceFactory.Manager.existInstance(instance)) {
-                instance.getParent().removeSubElem(instance);
-                this.addSubElem(instance);
-                instance.attachToAnother(this);
+                InstanceFactory.Manager.modifyInstanceStyle(instance, 'position', 'absolute');
+                InstanceFactory.Manager.modifyInstanceStyle(instance, 'left', `${event.nativeEvent.offsetX + 1}px`);
+                InstanceFactory.Manager.modifyInstanceStyle(instance, 'top', `${event.nativeEvent.offsetY + 1}px`);
+                InstanceFactory.Manager.moveInstance(instance,this);
             } else {
                 //console.log("Add");
                 InstanceFactory.Manager.addInstance(instance, this);
+                InstanceFactory.Manager.modifyInstanceStyle(instance, 'position', 'absolute',false);
+                InstanceFactory.Manager.modifyInstanceStyle(instance, 'left', `${event.nativeEvent.offsetX + 1}px`,false);
+                InstanceFactory.Manager.modifyInstanceStyle(instance, 'top', `${event.nativeEvent.offsetY + 1}px`,false);
             }
             if (this.id !== 0) {
                 if ('backgroundColor' in this.styles) {
@@ -189,9 +193,8 @@ export default class PrototypeInstance extends Prototype {
                     event.nativeEvent.target.style.removeProperty('background-color');
                 }
             }
-            InstanceFactory.Manager.modifyInstanceStyle(instance, 'position', 'absolute');
-            InstanceFactory.Manager.modifyInstanceStyle(instance, 'left', `${event.nativeEvent.offsetX + 1}px`);
-            InstanceFactory.Manager.modifyInstanceStyle(instance, 'top', `${event.nativeEvent.offsetY + 1}px`);
+            InstanceFactory.DragManager.cursorHide();
+            InstanceFactory.DragManager.setHoldInstance(null);
 
         }
         if (top !== undefined) {
@@ -265,7 +268,7 @@ function isChild(target, instance) {
 function genHtmlHead(protoType) {
     let stringBuffer = '\n<' + protoType.htmlLabel.type + ' ';
     for (let [k, v] of Object.entries(protoType.attributes)) {
-        stringBuffer += k + '="' + v + '" ';
+        stringBuffer += attrNameConvert(k) + '="' + v + '" ';
     }
     if (Object.keys(protoType.styles).length > 0) {
         stringBuffer += 'style="';
@@ -297,8 +300,25 @@ function genSingLineHtml(protoType) {
 function genStyleCode(protoType) {
     let stringBuffer = ''
     for (const [k, v] of Object.entries(protoType.styles)) {
-        stringBuffer += k + ':' + v + ';';
+        stringBuffer += styleNameConvert(k) + ':' + v + ';';
     }
     return stringBuffer;
 }
 
+function attrNameConvert(name: string) {
+    if(name==='className'){
+        return 'class';
+    }
+    return name.toLowerCase();
+}
+
+function styleNameConvert(name: string) {
+    let stringBuilder = '';
+    for (let c of name) {
+        if (c === c.toUpperCase()) {
+            stringBuilder += '-';
+        }
+        stringBuilder += c.toLowerCase();
+    }
+    return stringBuilder;
+}

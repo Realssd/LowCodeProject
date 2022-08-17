@@ -13,8 +13,8 @@ import AttrContent from "./Universe-Component/Sidebar/Attr-Content/AttrContent";
 import StyleContent from "./Universe-Component/Sidebar/Style-Content/StyleContent";
 import DragManager from "./Core/DragManager";
 import Cursor from "./Components/Cursor/Cursor";
-import InstanceFactory from "./Material/InstanceFactory";
-
+import InstanceFactory from "./Core/InstanceFactory";
+import OperationStack from "./Core/OperationStack";
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -26,6 +26,8 @@ class App extends React.Component {
         );
 
         this.DragManager = new DragManager(this,this.ComponentManager);
+        this.OperationStack = new OperationStack(this.ComponentManager);
+        this.ComponentManager.signOperationStack(this.OperationStack);
         InstanceFactory.signDragManager(this.DragManager);
         InstanceFactory.signManager(this.ComponentManager);
         this.state ={
@@ -34,7 +36,9 @@ class App extends React.Component {
             instances:this.ComponentManager.getInstances(),
             instanceNum:this.ComponentManager.getInstanceNum(),
             holdInstance:null,
-            canvasRate:100
+            canvasRate:100,
+            canvasWidth:500,
+            canvasHeight:500
         }
     }
 
@@ -42,7 +46,11 @@ class App extends React.Component {
         return (
             <div className={'wrapper'}>
 
-                <Topbar manager={this.ComponentManager} selected={this.state.selected}></Topbar>
+                <Topbar
+                    manager={this.ComponentManager}
+                    selected={this.state.selected}
+                    ops={this.OperationStack}
+                ></Topbar>
                 <div className={'flex-wrapper'}>
                     <div className={'left-block'}>
                         <Sidebar
@@ -61,7 +69,7 @@ class App extends React.Component {
                                 <DomNode
                                     drag={this.DragManager}
                                     manager={this.ComponentManager}
-                                    proto={this.ComponentManager.instances[0]}
+                                    proto={this.state.instances[0]}
                                 />
                             }
                         />
@@ -70,8 +78,10 @@ class App extends React.Component {
                         <Canvas
                             drag={this.DragManager}
                             manager={this.ComponentManager}
-                            content={this.ComponentManager.getInstances()[0]}
+                            content={this.state.instances}
                             scaleRate={this.state.canvasRate}
+                            width={this.state.canvasWidth}
+                            height={this.state.canvasHeight}
                         />
                         <input
                             className={'scale-range'}
@@ -96,6 +106,7 @@ class App extends React.Component {
                 </div>
                 <BottomBar selected={this.state.selectedArray} manager={this.ComponentManager} />
                 <Cursor manager={this.ComponentManager} instance={this.state.holdInstance}/>
+                <a id={'undefined'} style={{display:'none'}}></a>
             </div>
         );
     }
@@ -108,7 +119,7 @@ class App extends React.Component {
     }
 
     updateCanvas = () => {
-        this.setState({instances:this.ComponentManager.getInstances()})
+        this.setState({instances:this.ComponentManager.instances})
     }
 
     updateSelected = () => {
