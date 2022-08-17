@@ -128,10 +128,7 @@ export default class PrototypeInstance extends Prototype {
             })
             obj['onDrag'] = (event => {
                 event.stopPropagation();
-                //console.log(event.clientX, event.clientY);
                 InstanceFactory.DragManager.cursorShow();
-                // InstanceFactory.DragManager.getHoldInstance().styles.top = '1px';
-                // InstanceFactory.DragManager.getHoldInstance().styles.left = '1px';
                 InstanceFactory.DragManager.updateCursor(event.clientX, event.clientY);
             })
             obj['onDragEnd'] = (event) => {
@@ -171,25 +168,9 @@ export default class PrototypeInstance extends Prototype {
             event.stopPropagation();
             let instance = InstanceFactory.DragManager.getHoldInstance();
             if (isChild(this, instance)) {
-                InstanceFactory.Manager.modifyInstanceStyle(instance, 'position', 'absolute');
-                InstanceFactory.Manager.modifyInstanceStyle(instance, 'left', `${Number.parseInt(instance.styles.left)+event.nativeEvent.offsetX + 1}px`);
-                InstanceFactory.Manager.modifyInstanceStyle(instance, 'top', `${Number.parseInt(instance.styles.top)+event.nativeEvent.offsetY + 1}px`);
-                InstanceFactory.Manager.moveInstance(instance,InstanceFactory.Manager.getInstances()[0],false);
-
-                if (this.id !== 0) {
-                    if ('backgroundColor' in this.styles) {
-                        event.target.style.backgroundColor = this.styles.backgroundColor;
-                    } else {
-                        event.nativeEvent.target.style.removeProperty('background-color');
-                    }
-                }
-                InstanceFactory.DragManager.cursorHide();
-                InstanceFactory.DragManager.setHoldInstance(null);
                 return;
             }
-            //console.log("Canvas")
-            //console.log(`${Number.parseInt(instance.styles.left)+event.nativeEvent.offsetX}px,${Number.parseInt(instance.styles.top)+event.nativeEvent.offsetY}px`)
-            if (InstanceFactory.Manager.existInstance(instance)) {
+           if (InstanceFactory.Manager.existInstance(instance)) {
                 InstanceFactory.Manager.modifyInstanceStyle(instance, 'position', 'absolute');
                 InstanceFactory.Manager.modifyInstanceStyle(instance, 'left', `${event.nativeEvent.offsetX + 1}px`);
                 InstanceFactory.Manager.modifyInstanceStyle(instance, 'top', `${event.nativeEvent.offsetY + 1}px`);
@@ -337,3 +318,18 @@ function styleNameConvert(name: string) {
     }
     return stringBuilder;
 }
+
+// InstanceFactory.Manager.modifyInstanceStyle(instance, 'position', 'absolute');
+// InstanceFactory.Manager.modifyInstanceStyle(instance, 'left', `${Number.parseInt(instance.styles.left)+event.nativeEvent.offsetX + 1}px`);
+// InstanceFactory.Manager.modifyInstanceStyle(instance, 'top', `${Number.parseInt(instance.styles.top)+event.nativeEvent.offsetY + 1}px`);
+// InstanceFactory.Manager.moveInstance(instance,InstanceFactory.Manager.getInstances()[0],false);
+//
+// if (this.id !== 0) {
+//     if ('backgroundColor' in this.styles) {
+//         event.target.style.backgroundColor = this.styles.backgroundColor;
+//     } else {
+//         event.nativeEvent.target.style.removeProperty('background-color');
+//     }
+// }
+// InstanceFactory.DragManager.cursorHide();
+// InstanceFactory.DragManager.setHoldInstance(null);
