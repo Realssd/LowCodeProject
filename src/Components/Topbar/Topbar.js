@@ -3,7 +3,6 @@ import './Topbar.css'
 import TopBarButton from "../../Universe-Component/Topbar-Button/TopbarButton";
 export default function Topbar(props) {
 
-
     return (
         <div className='top-bar'>
             <div className={'top-bar-left'}>
@@ -81,7 +80,7 @@ function preview(text){
                 document.body.appendChild(a);
                 a.style = "display: none";
                 a.target = "_blank";
-                a.href = "http://127.0.0.1:8080/preview?id="+obj.id;
+                a.href = "http://139.9.143.161:8080/preview?id="+obj.id;
                 a.click();
                 document.body.removeChild(a);
             }else{
