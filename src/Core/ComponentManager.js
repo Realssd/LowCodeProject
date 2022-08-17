@@ -1,10 +1,9 @@
 import {Root} from "../Material/PrototypeLib";
 import {computed, observable} from "mobx";
 import App from "../App";
-import PrototypeInstance from "../Material/PrototypeInstance";
 import InstanceFactory from "../Material/InstanceFactory";
 
-let root = InstanceFactory.createInstanceof(Root,0);
+let root = InstanceFactory.createInstanceof(Root, 0);
 
 export default class ComponentManager {
 
@@ -26,8 +25,8 @@ export default class ComponentManager {
         this.instanceNum = computed(() => this.instances.length);
     }
 
-    existInstance(instance){
-        return this.instances.indexOf(instance)>=0;
+    existInstance(instance) {
+        return this.instances.indexOf(instance) >= 0;
     }
 
     addInstance(instance, target) {
@@ -130,15 +129,16 @@ export default class ComponentManager {
         this.selectedInstanceArray = this.nextSelectedInstanceArray;
         this.nextSelectedInstanceArray = [];
         if (this.selectedInstanceArray.length > 0) {
-            this.selectedInstance = this.selectedInstanceArray[0];
+            this.selectInstance(this.selectedInstanceArray[0]);
         } else {
-            this.selectedInstance = null;
+            this.selectedInstance(null);
         }
         //console.log(this.selectedInstanceArray)
         this.updateSelected();
     }
 
     selectInstance(instance) {
+
         this.selectedInstance = instance;
         this.app.updateSelected();
     }
@@ -180,4 +180,5 @@ export default class ComponentManager {
     }
 
 }
+
 

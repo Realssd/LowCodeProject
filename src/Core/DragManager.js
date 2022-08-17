@@ -1,31 +1,30 @@
+export default class DragManager {
 
-export default class DragManager{
-
-    constructor(app,manager) {
+    constructor(app, manager) {
         this.app = app;
         this.holdInstace = null;
         this.manager = manager;
     }
 
-    setHoldInstance(instance){
+    setHoldInstance(instance) {
         this.holdInstace = instance;
     }
 
-    getHoldInstance(){
+    getHoldInstance() {
         return this.holdInstace;
     }
 
-    updateCursor(x,y){
-        this.app.updateCursor(x,y)
+    updateCursor(x, y) {
+        this.app.updateCursor(x, y)
     }
 
-    cursorShow(){
+    cursorShow() {
         // delete this.holdInstace.styles.left;
         // delete this.holdInstace.styles.top;
         this.app.cursorShow();
     }
 
-    cursorHide(){
+    cursorHide() {
         this.app.cursorHide();
     }
 

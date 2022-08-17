@@ -10,8 +10,11 @@ export default function SelectStack(props) {
                     <div key={'selected'+item.getId()} >
                         <span onClick={() => {
                             props.manager.selectInstance(item);
-                            console.log('click bottom')
-                        }}>{item.htmlLabel.type}</span>
+                        }}>
+                            {item.attributes.id === undefined ?
+                                (item.attributes.className === undefined ?
+                                    item.getLabel() : '.'+item.attributes.className) : '#'+item.attributes.id}
+                        </span>
                     </div>
                 );
             })}

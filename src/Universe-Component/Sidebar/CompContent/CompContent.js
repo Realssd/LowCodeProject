@@ -1,7 +1,5 @@
-import './CompContent.css'
-import PrototypeInstance from "../../../Material/PrototypeInstance";
+import './CompContent.css';
 import InstanceFactory from "../../../Material/InstanceFactory";
-import ComponentManager from "../../../Core/ComponentManager";
 const img = new Image(10,10);
 img.src="https://s1.ax1x.com/2022/08/15/vdNkMn.png";
 export default function CompContent(props) {
@@ -24,7 +22,7 @@ export default function CompContent(props) {
                             })}
                             onDragEnd={(event)=>{
                                 event.stopPropagation();
-                                console.log('Instance DragEnd');
+                                //console.log('Instance DragEnd');
                                 InstanceFactory.DragManager.cursorHide();
                                 props.drag.setHoldInstance(null);
                             }}
@@ -35,9 +33,6 @@ export default function CompContent(props) {
                             }
 
                         </li>
-                        {/*<div id={"preview-"+item[0]} style={{display:"none"}}>*/}
-                        {/*    {PrototypeInstance.createInstanceof(item[1]).render()}*/}
-                        {/*</div>*/}
                     </div>
                 );
             })}

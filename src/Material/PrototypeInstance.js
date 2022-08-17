@@ -1,8 +1,9 @@
 import Prototype from "./Protoype";
 import InstanceFactory from "./InstanceFactory";
+import reverseColor from '../Core/ReverseColor'
 
-const img = new Image(1,1);
-img.src="https://s1.ax1x.com/2022/08/15/vdNkMn.png";
+const img = new Image(1, 1);
+img.src = "https://s1.ax1x.com/2022/08/15/vdNkMn.png";
 export default class PrototypeInstance extends Prototype {
 
     constructor(protoType: Prototype, index: number) {
@@ -14,10 +15,10 @@ export default class PrototypeInstance extends Prototype {
             protoType.canHasChildren
         );
         this.id = index;
-        this.subElmes = protoType.defaultChildren==null?null:cloneChildArray(protoType.defaultChildren);
+        this.subElmes = protoType.defaultChildren == null ? null : cloneChildArray(protoType.defaultChildren);
         //console.log(this.subElmes);
-        if(this.subElmes!==null){
-            for(let child of this.subElmes){
+        if (this.subElmes !== null) {
+            for (let child of this.subElmes) {
                 child.attachToAnother(this);
             }
         }
@@ -29,7 +30,7 @@ export default class PrototypeInstance extends Prototype {
         if (this.subElmes.length <= 0) {
             return genSingLineHtml(this);
         } else {
-            stringBuilder += genHtmlHead(this) + '\n';
+            stringBuilder += genHtmlHead(this);
             for (let child of this.subElmes) {
                 stringBuilder += child.genHtml();
             }
@@ -61,8 +62,8 @@ export default class PrototypeInstance extends Prototype {
         return this.subElmes;
     }
 
-    setParent(parent){
-        this.parentElem=parent;
+    setParent(parent) {
+        this.parentElem = parent;
     }
 
     getParent() {
@@ -73,7 +74,7 @@ export default class PrototypeInstance extends Prototype {
         return this.id;
     }
 
-    render(manager,top,left) {
+    render(manager, top, left) {
         if (this.htmlLabel === null) {
             return null;
         }
@@ -95,64 +96,113 @@ export default class PrototypeInstance extends Prototype {
         }
         obj['style'] = this.genStyleJSX();
         obj['style'].cursor = 'pointer'
-        obj['onClick'] = () => manager.addSelectInstance(this);
-        if(this.id!==0) {
+        obj['onClick'] = () => {
+            manager.addSelectInstance(this);
+        };
+        if (this.id !== 0) {
             obj['draggable'] = true;
             obj['onDragStart'] = (event) => {
                 event.stopPropagation();
                 event.dataTransfer.setDragImage(img, 0, 0);
-                console.log("Instance Dragging");
+                //console.log("Instance Dragging");
                 InstanceFactory.DragManager.setHoldInstance(this);
 
             }
+
+            obj['onMouseEnter'] = (event => {
+                event.stopPropagation();
+                if ('backgroundColor' in this.styles) {
+                    event.target.style.backgroundColor = reverseColor(this.styles.backgroundColor);
+                } else {
+                    event.target.style.backgroundColor = reverseColor(window.getComputedStyle(event.target).backgroundColor);
+                }
+            })
+
+            obj['onMouseLeave'] = (event => {
+                event.stopPropagation();
+                if ('backgroundColor' in this.styles) {
+                    event.target.style.backgroundColor = this.styles.backgroundColor;
+                } else {
+                    event.nativeEvent.target.style.removeProperty('background-color');
+                }
+            })
             obj['onDrag'] = (event => {
                 event.stopPropagation();
                 //console.log(event.clientX, event.clientY);
                 InstanceFactory.DragManager.cursorShow();
                 // InstanceFactory.DragManager.getHoldInstance().styles.top = '1px';
                 // InstanceFactory.DragManager.getHoldInstance().styles.left = '1px';
-                InstanceFactory.DragManager.updateCursor(event.clientX,event.clientY);
+                InstanceFactory.DragManager.updateCursor(event.clientX, event.clientY);
             })
             obj['onDragEnd'] = (event) => {
                 event.stopPropagation();
-                console.log('Instance DragEnd');
+                //console.log('Instance DragEnd');
                 InstanceFactory.DragManager.cursorHide();
                 InstanceFactory.DragManager.setHoldInstance(null);
             }
+            obj['onDragEnter'] = (event) => {
+                event.stopPropagation();
+                //console.log('enter',event.target.style.backgroundColor)
+                if ('backgroundColor' in this.styles) {
+                    event.target.style.backgroundColor = reverseColor(this.styles.backgroundColor);
+                } else {
+                    event.target.style.backgroundColor = reverseColor(window.getComputedStyle(event.target).backgroundColor);
+                }
+
+            }
+
+            obj['onDragLeave'] = (event) => {
+                event.stopPropagation();
+                if ('backgroundColor' in this.styles) {
+                    event.target.style.backgroundColor = this.styles.backgroundColor;
+                } else {
+                    event.nativeEvent.target.style.removeProperty('background-color');
+                }
+            }
         }
-        obj['onDragOver']=(event)=>{
+
+
+        obj['onDragOver'] = (event) => {
             event.stopPropagation();
             event.preventDefault();
         }
-        obj['onDrop']=(event)=>{
+        obj['onDrop'] = (event) => {
             event.preventDefault();
             event.stopPropagation();
             let instance = InstanceFactory.DragManager.getHoldInstance();
-            if(isChild(this,instance)){
+            if (isChild(this, instance)) {
                 return;
             }
-            console.log(`${event.nativeEvent.offsetX}px,${event.nativeEvent.offsetY}px`)
-            if(InstanceFactory.Manager.existInstance(instance)){
+            //console.log(`${event.nativeEvent.offsetX}px,${event.nativeEvent.offsetY}px`)
+            if (InstanceFactory.Manager.existInstance(instance)) {
                 instance.getParent().removeSubElem(instance);
                 this.addSubElem(instance);
                 instance.attachToAnother(this);
-            }else{
-                console.log("Add");
-                InstanceFactory.Manager.addInstance(instance,this);
+            } else {
+                //console.log("Add");
+                InstanceFactory.Manager.addInstance(instance, this);
             }
-            InstanceFactory.Manager.modifyInstanceStyle(instance,'position','absolute');
-            InstanceFactory.Manager.modifyInstanceStyle(instance,'left',`${event.nativeEvent.offsetX+1}px`);
-            InstanceFactory.Manager.modifyInstanceStyle(instance,'top',`${event.nativeEvent.offsetY+1}px`);
+            if (this.id !== 0) {
+                if ('backgroundColor' in this.styles) {
+                    event.target.style.backgroundColor = this.styles.backgroundColor;
+                } else {
+                    event.nativeEvent.target.style.removeProperty('background-color');
+                }
+            }
+            InstanceFactory.Manager.modifyInstanceStyle(instance, 'position', 'absolute');
+            InstanceFactory.Manager.modifyInstanceStyle(instance, 'left', `${event.nativeEvent.offsetX + 1}px`);
+            InstanceFactory.Manager.modifyInstanceStyle(instance, 'top', `${event.nativeEvent.offsetY + 1}px`);
 
         }
-        if(top!==undefined){
-            obj['style'].top=top;
+        if (top !== undefined) {
+            obj['style'].top = top;
         }
-        if(left!==undefined){
-            obj['style'].left=left;
+        if (left !== undefined) {
+            obj['style'].left = left;
         }
         res.key = 'CanvasNode-' + this.getId().toString();
         res.props = obj;
+
         return res;
     }
 }
@@ -188,20 +238,20 @@ function clone(obj) {
     return obj;
 }
 
-function cloneChildArray(array){
+function cloneChildArray(array) {
     let ans = [];
-    for (let elem of array){
+    for (let elem of array) {
         ans.push(InstanceFactory.createInstanceof(elem));
     }
     return ans;
 }
 
-function isChild(target,instance){
-    if(target===instance){
+function isChild(target, instance) {
+    if (target === instance) {
         //console.log(target,instance)
         return true;
     }
-    if(instance.subElmes!=null) {
+    if (instance.subElmes != null) {
         for (let child of instance.subElmes) {
             if (isChild(target, child)) {
 
@@ -213,31 +263,31 @@ function isChild(target,instance){
 }
 
 function genHtmlHead(protoType) {
-    let stringBuffer = '<' + protoType.htmlLabel.type + ' ';
+    let stringBuffer = '\n<' + protoType.htmlLabel.type + ' ';
     for (let [k, v] of Object.entries(protoType.attributes)) {
         stringBuffer += k + '="' + v + '" ';
     }
     if (Object.keys(protoType.styles).length > 0) {
         stringBuffer += 'style="';
-        stringBuffer +=genStyleCode(protoType);
+        stringBuffer += genStyleCode(protoType);
         stringBuffer += '"'
     }
     return stringBuffer + '>';
 }
 
 function genHtmlTail(protoType) {
-    return "</" + protoType.htmlLabel.type + ">";
+    return "\n</" + protoType.htmlLabel.type + ">";
 }
 
 function genSingLineHtml(protoType) {
-    let stringBuffer = '<' + protoType.htmlLabel.type + ' ';
+    let stringBuffer = '\n<' + protoType.htmlLabel.type + ' ';
     for (let [k, v] of Object.entries(protoType.attributes)) {
         stringBuffer += k + '= "' + v + '" ';
     }
 
     if (Object.keys(protoType.styles).length > 0) {
         stringBuffer += 'style="';
-        stringBuffer +=genStyleCode(protoType);
+        stringBuffer += genStyleCode(protoType);
         stringBuffer += '"'
     }
 
@@ -247,7 +297,8 @@ function genSingLineHtml(protoType) {
 function genStyleCode(protoType) {
     let stringBuffer = ''
     for (const [k, v] of Object.entries(protoType.styles)) {
-        stringBuffer += k + ':' + v + ';\n';
+        stringBuffer += k + ':' + v + ';';
     }
     return stringBuffer;
 }
+

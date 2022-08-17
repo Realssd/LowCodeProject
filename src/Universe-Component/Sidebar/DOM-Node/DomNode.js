@@ -1,6 +1,5 @@
 import './DomNode.css'
 import React from "react";
-import InstanceFactory from "../../../Material/InstanceFactory";
 
 const img = new Image(1, 1);
 img.src = "https://s1.ax1x.com/2022/08/15/vdNkMn.png";
@@ -101,7 +100,7 @@ export default class DomNode extends React.Component {
                         </span>)}
                         {this.props.proto.attributes.id === undefined ?
                             (this.props.proto.attributes.className === undefined ?
-                                this.props.proto.getLabel() : this.props.proto.attributes.className) : this.props.proto.attributes.id}
+                                this.props.proto.getLabel() : '.'+this.props.proto.attributes.className) : '#'+this.props.proto.attributes.id}
                     </li>
                     <div className={'dom-children'} id={'dom-children' + this.props.layer + '-' + this.props.index}>
                         {this.props.proto.getChildren() == null ? null : this.props.proto.getChildren().map(child => {
