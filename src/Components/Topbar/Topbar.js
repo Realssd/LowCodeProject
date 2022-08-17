@@ -70,7 +70,7 @@ function preview(text){
     let data = new FormData();
     data.append("page",text);
     let xhr = new XMLHttpRequest();
-    xhr.open("POST","http://127.0.0.1:8080/preview");
+    xhr.open("POST","http://139.9.143.161:8080/preview");
     xhr.send(data);
     xhr.onreadystatechange = ()=>{
         if(xhr.readyState===4){
