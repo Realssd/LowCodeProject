@@ -16,7 +16,6 @@ export default class PrototypeInstance extends Prototype {
         );
         this.id = index;
         this.subElmes = protoType.defaultChildren == null ? null : cloneChildArray(protoType.defaultChildren);
-        //console.log(this.subElmes);
         if (this.subElmes !== null) {
             for (let child of this.subElmes) {
                 child.attachToAnother(this);
@@ -108,24 +107,6 @@ export default class PrototypeInstance extends Prototype {
                 InstanceFactory.DragManager.setHoldInstance(this);
 
             }
-
-            obj['onMouseEnter'] = (event => {
-                event.stopPropagation();
-                if ('backgroundColor' in this.styles) {
-                    event.target.style.backgroundColor = reverseColor(this.styles.backgroundColor);
-                } else {
-                    event.target.style.backgroundColor = reverseColor(window.getComputedStyle(event.target).backgroundColor);
-                }
-            })
-
-            obj['onMouseLeave'] = (event => {
-                event.stopPropagation();
-                if ('backgroundColor' in this.styles) {
-                    event.target.style.backgroundColor = this.styles.backgroundColor;
-                } else {
-                    event.nativeEvent.target.style.removeProperty('background-color');
-                }
-            })
             obj['onDrag'] = (event => {
                 event.stopPropagation();
                 InstanceFactory.DragManager.cursorShow();

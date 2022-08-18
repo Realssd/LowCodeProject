@@ -130,7 +130,8 @@ export default class ComponentManager {
         if (target == null) {
             trueTarget = this.instances[0];
         }
-        if(symbol===undefined && instance.getParent().getId()!==target.getId()){
+        console.log(trueTarget)
+        if(symbol===undefined &&( instance.getParent()===null|| instance.getParent().getId()!==trueTarget.getId())){
             this.ops.addUndo(
                 {
                     method:'m-parent',
@@ -254,14 +255,12 @@ export default class ComponentManager {
             parent.subElmes[index] = parent.subElmes[index + 1];
             parent.subElmes[index + 1] = temp;
             if(symbol===undefined){
-                if(symbol===undefined){
-                    this.ops.addUndo(
-                        {
-                            method:'moveUp',
-                            target:instance
-                        }
-                    )
-                }
+                this.ops.addUndo(
+                    {
+                        method:'moveUp',
+                        target:instance
+                    }
+                )
             }
             this.updateDOM();
             this.updateCanvas();

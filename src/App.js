@@ -108,7 +108,7 @@ class App extends React.Component {
                 </div>
                 <BottomBar selected={this.state.selectedArray} manager={this.ComponentManager} />
                 <Cursor manager={this.ComponentManager} instance={this.state.holdInstance}/>
-                <a id={'undefined'} style={{display:'none'}}></a>
+                <a id={'undefined'} style={{display:'block',width:'200px',height:'200px'}}></a>
             </div>
         );
     }
@@ -134,6 +134,8 @@ class App extends React.Component {
     updateCursor(x,y){
         let cursor = document.getElementById('cursor');
         cursor.style.display = 'block';
+        cursor.style.width = `${this.state.canvasWidth}px`;
+        cursor.style.height = `${this.state.canvasHeight}px`;
         cursor.style.top=`${y+1}px`;
         cursor.style.left=`${x+1}px`;
         //console.log("set",x,y)

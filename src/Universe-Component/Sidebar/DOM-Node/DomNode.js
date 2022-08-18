@@ -75,7 +75,7 @@ export default class DomNode extends React.Component {
                                     delete instance.styles.position;
                                     delete instance.styles.left;
                                     delete instance.styles.top;
-                                    this.props.manager.moveInstance(instance,this);
+                                    this.props.manager.moveInstance(instance,this.props.proto);
                                 } else {
                                     console.log('Add')
                                     this.props.manager.addInstance(
@@ -85,7 +85,9 @@ export default class DomNode extends React.Component {
                                 }
                             }
                             this.setState({drop: false})
+                            this.props.drag.cursorHide();
                             this.props.drag.setHoldInstance(null);
+
                         }}
                     >
                         {this.props.proto.canHasChildren ? (<span onClick={(event) => {

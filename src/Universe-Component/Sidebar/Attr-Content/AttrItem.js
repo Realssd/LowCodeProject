@@ -1,6 +1,6 @@
 import './AttrItem.css'
 import React from "react";
-import {Lib} from "../../../Material/PrototypeLib";
+
 export default class AttrItem extends React.Component{
 
     static defaultProps = {
@@ -38,7 +38,6 @@ export default class AttrItem extends React.Component{
                                     this.state.value
 
                                 );
-                                console.log(Lib.div.defaultChildren)
                             }
                         }}
                     />
