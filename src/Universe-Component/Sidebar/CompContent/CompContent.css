@@ -11,8 +11,6 @@
 }
 
 .comp-list{
-    height: 95%;
-    overflow-y: scroll;
     padding: 0;
     margin: 0;
     text-align: left;
